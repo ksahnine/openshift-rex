@@ -1,0 +1,77 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Le comptoir général</span>
+
+    <span class="toolbar-spacer"></span>
+
+    <button mat-button>A propos</button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card>
+  <mat-card-title>
+    Liste des articles
+  </mat-card-title>
+  <mat-card-content>
+    <mat-table #table [dataSource]="articles">
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let a"> {{a.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Titre </mat-header-cell>
+        <mat-cell *matCellDef="let a"> {{a.title}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let a"> {{a.description}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="available">
+        <mat-header-cell *matHeaderCellDef> Disponibilité </mat-header-cell>
+        <mat-cell *matCellDef="let a"> 
+          <mat-slide-toggle [(ngModel)]="a.available" color="primary"></mat-slide-toggle> 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let a">
+            <button mat-button (click)="delete(a.id)">
+                <mat-icon aria-label="Supprimer l'article">delete</mat-icon>
+            </button>        
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>
+    Ajouter un nouvel article
+  </mat-card-title>
+  <mat-card-content>
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput [(ngModel)]="article.title" placeholder="Titre de l'article">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput [(ngModel)]="article.description" placeholder="Description de l'article"></textarea>
+      </mat-form-field>
+      <mat-slide-toggle [(ngModel)]="article.available">Article en stock</mat-slide-toggle>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-mini-fab color="primary" (click)="add()">
+      <mat-icon aria-label="Ajouter l'article">add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<router-outlet></router-outlet>
